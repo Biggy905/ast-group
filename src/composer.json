@@ -20,7 +20,8 @@
     "yiisoft/yii2-faker": "~2.0.0",
     "yiisoft/yii2-symfonymailer": "~2.0.3",
     "vlucas/phpdotenv": "*",
-    "kartik-v/yii2-widget-select2": "dev-master"
+    "kartik-v/yii2-widget-select2": "dev-master",
+    "giggsey/libphonenumber-for-php": "*"
   },
   "config": {
     "allow-plugins": {
