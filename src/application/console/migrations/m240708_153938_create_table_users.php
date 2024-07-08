@@ -7,7 +7,7 @@ final class m240708_153938_create_table_users extends Migration
     public function up(): void
     {
         $this->createTable(
-            User::$tableName,
+            \application\common\entities\User::$tableName,
             [
                 'id' => $this->primaryKey(),
                 'username' => $this->string(16),
@@ -28,7 +28,7 @@ final class m240708_153938_create_table_users extends Migration
         );
 
         $this->insert(
-            User::$tableName,
+            \application\common\entities\User::$tableName,
             [
                 'id' => 1,
                 'username' => 'new_admin',
@@ -47,6 +47,6 @@ final class m240708_153938_create_table_users extends Migration
 
     public function down(): void
     {
-        $this->dropTable(User::$tableName);
+        $this->dropTable(\application\common\entities\User::$tableName);
     }
 }
