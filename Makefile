@@ -36,9 +36,8 @@ migrate-up:
 migrate-down:
 	docker compose run --rm ast-php-cli php ./yii migrate/down all -- --interactive=0
 modify-dir:
-	docker compose run --rm ast-php-cli chmod 777 -R /app/src/application/api/runtime
+	docker compose run --rm ast-php-cli chmod 777 -R /app/src/application/admin/runtime
 	docker compose run --rm ast-php-cli chmod 777 -R /app/src/application/site/runtime
+	docker compose run --rm ast-php-cli chmod 777 -R /app/src/application/admin/public/assets
 	docker compose run --rm ast-php-cli chmod 777 -R /app/src/application/site/public/assets
 	docker compose run --rm ast-php-cli chmod 777 -R /app/src/application/console/runtime
-	docker compose run --rm ast-php-cli chmod 777 -R /app/src/FileStorage/tmp_images
-	docker compose run --rm ast-php-cli ln -s /app/src/FileStorage/tmp_images /app/src/application/site/public/images
