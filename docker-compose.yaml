@@ -8,9 +8,8 @@ services:
       - ./:/app
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
     ports:
-      - "5000:5000"
-      - "5010:5010"
-      - "5020:5020"
+      - "7000:7000"
+      - "7010:7010"
     depends_on:
       - ast-php-fpm
     restart: unless-stopped
@@ -49,7 +48,6 @@ services:
       - "3306:3306"
     volumes:
       - ast-mysql-db-data:/bitnami/mysql/data
-    #command: mysqld --sql_mode=''
     restart: unless-stopped
 
 networks:
