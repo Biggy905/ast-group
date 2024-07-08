@@ -19,10 +19,38 @@ final class EventToManagerRepository extends AbstractRepository implements Event
             ->one();
     }
 
+    public function findByManagerId(int $id): array
+    {
+        return EventToManager::find()
+            ->byManagerId($id)
+            ->all();
+    }
+
+    public function findByEventId(int $id): array
+    {
+        return EventToManager::find()
+            ->byEventId($id)
+            ->all();
+    }
+
     public function existsById(int $id): bool
     {
         return EventToManager::find()
             ->byId($id)
+            ->exists();
+    }
+
+    public function existsByManagerId(int $id): bool
+    {
+        return EventToManager::find()
+            ->byManagerId($id)
+            ->exists();
+    }
+
+    public function existsByEventId(int $id): bool
+    {
+        return EventToManager::find()
+            ->byEventId($id)
             ->exists();
     }
 

@@ -14,7 +14,7 @@ use yii\helpers\Url;
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
-                    <a href="<?= Url::to(['events/list'], true);?>" class="nav-link">
+                    <a href="<?= Url::to(['event/list', 'page' => 1], true);?>" class="nav-link">
                         <i class="nav-icon fas fa-bullhorn"></i>
                         <p>
                             Мероприятия

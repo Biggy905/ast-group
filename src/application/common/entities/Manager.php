@@ -26,8 +26,10 @@ final class Manager extends AbstractModel
     {
         return [
             'id' => 'ID',
-            'title' => 'Заголовок',
-            'description' => 'Описание',
+            'name' => 'Заголовок',
+            'surname' => 'Заголовок',
+            'email' => 'Заголовок',
+            'phone' => 'Описание',
             'created_at' => 'Дата создания',
             'updated_at' => 'Дата обновления',
             'deleted_at' => 'Дата удаления',

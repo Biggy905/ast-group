@@ -12,7 +12,7 @@ interface ManagerRepositoryInterface
 
     public function existsById(int $id): bool;
 
-    public function findAllSelectIdTitle(): array;
+    public function findAllSelectIdPhone(): array;
 
     public function findAll(int $page): array;
 

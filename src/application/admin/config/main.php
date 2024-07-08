@@ -9,7 +9,7 @@ $containers = require 'containers.php';
 $params = require 'params.php';
 
 $config = [
-    'id' => 'site',
+    'id' => 'admin',
     'name' => 'Сайт',
     'basePath' => dirname(__DIR__),
     'language' => 'ru-RU',

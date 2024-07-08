@@ -30,7 +30,7 @@ final class EventRepository extends AbstractRepository implements EventRepositor
     {
 
         return Event::find()
-            ->select('id, title')
+            ->select('id, phone')
             ->all();
     }
 

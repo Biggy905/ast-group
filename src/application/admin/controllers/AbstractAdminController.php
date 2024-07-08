@@ -1,5 +1,6 @@
 <?php
 
+namespace application\admin\controllers;
 
 use application\admin\forms\IdForm;
 use application\admin\forms\PageForm;
@@ -68,6 +69,7 @@ abstract class AbstractAdminController extends AbstractController
             ]
         );
     }
+
     public function actionCreate(): array
     {
         $postPayload = json_decode(Yii::$app->request->getRawBody(), true) ?? [];
@@ -185,7 +187,7 @@ abstract class AbstractAdminController extends AbstractController
         );
 
         if ($form->hasErrors()) {
-            throw new DomainException($form->getFirstError('page'));
+            throw new NotFoundHttpException($form->getFirstError('page'));
         }
     }
 }

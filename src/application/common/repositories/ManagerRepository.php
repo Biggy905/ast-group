@@ -28,11 +28,10 @@ final class ManagerRepository extends AbstractRepository implements ManagerRepos
             ->exists();
     }
 
-    public function findAllSelectIdTitle(): array
+    public function findAllSelectIdPhone(): array
     {
-
         return Manager::find()
-            ->select('id, title')
+            ->select('id, phone')
             ->all();
     }
 

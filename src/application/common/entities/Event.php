@@ -27,6 +27,7 @@ final class Event extends AbstractModel
             'id' => 'ID',
             'title' => 'Заголовок',
             'description' => 'Описание',
+            'date' => 'Дата мероприятия',
             'created_at' => 'Дата создания',
             'updated_at' => 'Дата обновления',
             'deleted_at' => 'Дата удаления',

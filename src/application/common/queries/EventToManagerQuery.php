@@ -18,4 +18,22 @@ final class EventToManagerQuery extends AbstractQuery
             ]
         );
     }
+
+    public function byManagerId(int $id): ActiveQuery
+    {
+        return $this->andWhere(
+            [
+                EventToManager::tableName() . '.manager_id' => $id,
+            ]
+        );
+    }
+
+    public function byEventId(int $id): ActiveQuery
+    {
+        return $this->andWhere(
+            [
+                EventToManager::tableName() . '.event_id' => $id,
+            ]
+        );
+    }
 }
