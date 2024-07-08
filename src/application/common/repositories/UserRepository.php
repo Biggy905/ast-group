@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace application\common\components\repository;
+namespace application\common\repositories;
 
 use application\common\components\repository\AbstractRepository;
 use application\common\components\UserIdentity;
@@ -28,7 +28,7 @@ final class UserRepository extends AbstractRepository implements UserRepositoryI
             ->one();
     }
 
-    public function existsByUsername(string $username)
+    public function existsByUsername(string $username): bool
     {
         return User::find()
             ->byUsername($username)
