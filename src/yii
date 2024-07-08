@@ -1,0 +1,27 @@
+#!/usr/bin/env php
+<?php
+
+require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/vendor/yiisoft/yii2/Yii.php';
+require __DIR__ . '/application/common/config/BaseAliases.php';
+require __DIR__ . '/application/console/config/aliases.php';
+
+use yii\console\Application;
+use Dotenv\Dotenv;
+
+(Dotenv::createUnsafeImmutable(
+    Yii::getAlias('@root'),
+    ['.env'],
+    false
+))->load();
+
+$config = require __DIR__ . '/application/console/config/main.php';
+
+try {
+    exit(
+    (new Application($config))
+        ->run()
+    );
+} catch (Exception $e) {
+    echo $e->getMessage();
+}
