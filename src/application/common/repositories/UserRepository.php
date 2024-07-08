@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+namespace application\common\components\repository;
 
 use application\common\components\repository\AbstractRepository;
 use application\common\components\UserIdentity;
