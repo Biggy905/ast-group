@@ -33,3 +33,17 @@ make modify-dir
 ```
 make help
 ```
+
+
+### О проекте
+Проект доступен по адресу: 
+
+сайт: http:://localhost:7000
+
+админская часть: http:://localhost:7010
+
+
+### Реквизиты доступа:
+
+login: new_admin
+pass: 123456789
