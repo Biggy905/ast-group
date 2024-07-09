@@ -5,6 +5,7 @@ $applicationDir = dirname(dirname(__DIR__));
 
 Yii::setAlias('web', $applicationDir . '/admin/public');
 Yii::setAlias('webroot', $applicationDir . '/admin/public');
+Yii::setAlias('vendor', $rootDir . '/vendor');
 
 Yii::setAlias('resoursesMain', $applicationDir . '/admin/resourses/main');
 Yii::setAlias('resoursesBootstrap', $applicationDir . '/admin/resourses/bootstrap');

@@ -14,6 +14,10 @@ $config = [
     'basePath' => dirname(__DIR__),
     'language' => 'ru-RU',
     'bootstrap' => ['log'],
+    'aliases' => [
+        '@bower' => '@vendor/bower-asset',
+        '@npm'   => '@vendor/npm-asset',
+    ],
     'controllerNamespace' => 'application\admin\controllers',
     'components' => [
         'db' => $db,
