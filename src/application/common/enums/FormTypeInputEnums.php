@@ -9,6 +9,7 @@ use application\common\forms\systems\TypeInputDropdownListForm;
 use application\common\forms\systems\TypeInputRadioForm;
 use application\common\forms\systems\TypeInputRadioListForm;
 use application\common\widgets\DateTimePickerWidget\DateTimePickerWidget;
+use application\common\widgets\Select2\CustomSelect2;
 use kartik\select2\Select2;
 use yii\bootstrap5\Dropdown;
 use yii\bootstrap5\Html;
@@ -27,6 +28,7 @@ enum FormTypeInputEnums: string
     case TYPE_CHECKBOX_LIST = 'checkbox_list';
     case TYPE_SELECT = 'select';
     case TYPE_DROPDOWN_LIST = 'dropdown_list';
+    case TYPE_DROPDOWN_LIST_MULTIPLE = 'dropdown_list_multiple';
     case TYPE_TEXTAREA = 'textarea';
     case TYPE_DATETIME = 'datetime';
 
@@ -71,6 +73,13 @@ enum FormTypeInputEnums: string
             }
         }
 
+        if ($enums === self::TYPE_DROPDOWN_LIST_MULTIPLE) {
+            $formTypeDropdownList = new TypeInputDropdownListForm();
+            if (!$formTypeDropdownList->runValidate($options)) {
+                throw new DomainException('Error configuration from "options" for "dropdown list multiple"');
+            }
+        }
+
         if ($enums === self::TYPE_DATETIME) {
             $formDateTime = new TypeInputDateTimeForm();
             if (!$formDateTime) {
@@ -97,6 +106,13 @@ enum FormTypeInputEnums: string
                 Html::checkboxList($name, $options['selection'], $options['items'], $options['options']),
             self::TYPE_DROPDOWN_LIST =>
                 Html::dropDownList($name, $options['selection'], $options['items'], $options['options']),
+            self::TYPE_DROPDOWN_LIST_MULTIPLE => CustomSelect2::widget(
+                [
+                    'name' => $name,
+                    'data' => $options['items'],
+                    'options' => $options['options'],
+                ]
+            ),
             self::TYPE_DATETIME => DateTimePickerWidget::widget(
                 [
                     'name' => $name,

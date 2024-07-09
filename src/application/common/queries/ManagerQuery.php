@@ -18,4 +18,13 @@ final class ManagerQuery extends AbstractQuery
             ]
         );
     }
+
+    public function byIds(array $ids): ActiveQuery
+    {
+        return $this->andWhere(
+            [
+                Manager::tableName() . '.id' => $ids,
+            ]
+        );
+    }
 }

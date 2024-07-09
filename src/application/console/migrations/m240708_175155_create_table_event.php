@@ -12,7 +12,7 @@ final class m240708_175155_create_table_event extends Migration
                 'id' => $this->primaryKey(),
                 'title' => $this->string(128),
                 'description' => $this->text(),
-                'date' => $this->dateTime(),
+                'date' => $this->date(),
                 'created_at' => $this->dateTime(),
                 'updated_at' => $this->dateTime(),
                 'deleted_at' => $this->dateTime(),

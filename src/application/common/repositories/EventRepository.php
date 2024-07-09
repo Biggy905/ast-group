@@ -19,6 +19,13 @@ final class EventRepository extends AbstractRepository implements EventRepositor
             ->one();
     }
 
+    public function findByIds(array $ids): array
+    {
+        return Event::find()
+            ->byIds($ids)
+            ->all();
+    }
+
     public function existsById(int $id): bool
     {
         return Event::find()
@@ -28,9 +35,8 @@ final class EventRepository extends AbstractRepository implements EventRepositor
 
     public function findAllSelectIdTitle(): array
     {
-
         return Event::find()
-            ->select('id, phone')
+            ->select('id, title')
             ->all();
     }
 

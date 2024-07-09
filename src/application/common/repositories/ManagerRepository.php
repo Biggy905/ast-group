@@ -21,6 +21,13 @@ final class ManagerRepository extends AbstractRepository implements ManagerRepos
             ->one();
     }
 
+    public function findByIds(array $ids): array
+    {
+        return Manager::find()
+            ->byIds($ids)
+            ->all();
+    }
+
     public function existsById(int $id): bool
     {
         return Manager::find()
@@ -39,6 +46,7 @@ final class ManagerRepository extends AbstractRepository implements ManagerRepos
     {
         return Manager::find()
             ->page($page, 16)
+            ->joinWith('events')
             ->all();
     }
 

@@ -18,4 +18,13 @@ final class EventQuery extends AbstractQuery
             ]
         );
     }
+
+    public function byIds(array $ids): ActiveQuery
+    {
+        return $this->andWhere(
+            [
+                Event::tableName() . '.id' => $ids,
+            ]
+        );
+    }
 }
