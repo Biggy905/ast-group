@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace application\admin\controllers;
 
 use application\admin\forms\event\CreateEventForm;
@@ -10,7 +12,7 @@ use application\admin\forms\PageForm;
 use application\admin\services\EventService;
 use application\common\repositories\EventRepository;
 
-final class CarBrandController extends AbstractAdminController
+final class EventController extends AbstractAdminController
 {
     public function __construct(
         $id,

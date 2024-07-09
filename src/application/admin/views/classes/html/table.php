@@ -50,18 +50,42 @@ use yii\helpers\Url;
 
                         <tr>
                             <?php foreach ($table as $data){
+
                                 $title = null;
-                                if (is_string($data) || is_int($data)){
-                                    $title = $data;
-                                } elseif (is_array($data) && $data['relation_type'] === 'one') {
+                                if (
+                                        is_string($data)
+                                        || is_int($data)
+                                ) {
+                                    $title = (string) $data;
+                                } elseif (
+                                        is_array($data)
+                                        && (
+                                                !empty($data['relation_type'])
+                                                && $data['relation_type'] === 'one'
+                                        )
+                                ) {
                                     $title = $data['relation_data']['title'];
-                                } elseif (is_array($data) && $data['relation_type'] === 'many') {
+                                } elseif (
+                                        is_array($data)
+                                        && (
+                                                !empty($data['relation_type'])
+                                                && $data['relation_type'] === 'many'
+                                        )
+                                ) {
                                     $tempTitle = [];
-                                    foreach ($data['relation_data'] as $relationData) {
-                                        $tempTitle[]= $relationData['title'];
+                                    if (!empty($data['relation_data'])) {
+                                        foreach ($data['relation_data'] as $relationData) {
+                                            if (!empty($relationData['title'])) {
+                                                $tempTitle[]= $relationData['title'];
+                                            } elseif (
+                                                    !empty($relationData['name'] && !empty($relationData['surname']))
+                                            ) {
+                                                $tempTitle[]= $relationData['name'] . ' ' .$relationData['surname'];
+                                            }
+                                        }
                                     }
 
-                                    $title = implode(', ', $tempTitle);
+                                    $title = !empty($tempTitle) ? implode(', ', $tempTitle) : 'Нет данных';
                                 }
                                 ?>
 
@@ -129,14 +153,15 @@ use yii\helpers\Url;
 
     <?php foreach ($tableData as $data) {
         $id = $data['id'];
+
         $urlUpdate = Url::to($update_url[$id], true);
         $update_form->load($data);
-        $update_form->validate();
+        //$update_form->validate();
         $update_form->reloadAttributesTypeInput();
 
         $urlDelete = Url::to($delete_url[$id], true);
         $delete_form->load($data);
-        $delete_form->validate();
+        //$delete_form->validate();
         $delete_form->reloadAttributesTypeInput();
         ?>
 
@@ -161,17 +186,40 @@ use yii\helpers\Url;
                             }
 
                             $title = null;
-                            if (is_string($data[$tableLabel]) || is_int($data[$tableLabel])){
+                            if (
+                                    is_string($data[$tableLabel])
+                                    || is_int($data[$tableLabel])
+                            ) {
                                 $title = $data[$tableLabel];
-                            } elseif (is_array($data[$tableLabel]) && $data[$tableLabel]['relation_type'] === 'one') {
+                            } elseif (
+                                    is_array($data[$tableLabel])
+                                    && (
+                                            !empty($data[$tableLabel]['relation_type'])
+                                            && $data[$tableLabel]['relation_type'] === 'one'
+                                    )
+                            ) {
                                 $title = $data[$tableLabel]['relation_data']['title'];
-                            } elseif (is_array($data[$tableLabel]) && $data[$tableLabel]['relation_type'] === 'many') {
+                            } elseif (
+                                    is_array($data[$tableLabel])
+                                    && (
+                                            !empty($data[$tableLabel]['relation_type'])
+                                            && $data[$tableLabel]['relation_type'] === 'many'
+                                    )
+                            ) {
                                 $tempTitle = [];
-                                foreach ($data[$tableLabel]['relation_data'] as $relationData) {
-                                    $tempTitle[]= $relationData['title'];
+                                if (!empty($data[$tableLabel]['relation_data'])) {
+                                    foreach ($data[$tableLabel]['relation_data'] as $relationData) {
+                                        if (!empty($relationData['title'])) {
+                                            $tempTitle[] = $relationData['title'];
+                                        } elseif (
+                                            !empty($relationData['name'] && !empty($relationData['surname']))
+                                        ) {
+                                            $tempTitle[] = $relationData['name'] . ' ' . $relationData['surname'];
+                                        }
+                                    }
                                 }
 
-                                $title = implode(', ', $tempTitle);
+                                $title = !empty($tempTitle) ? implode(', ', $tempTitle) : 'Нет данных';
                             }
                             ?>
 
@@ -225,7 +273,7 @@ use yii\helpers\Url;
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Вы точно хотите удалить "<?= $data['title']?>"?</h4>
+                        <h4 class="modal-title">Вы точно хотите удалить "<?php //= $data['title']?>"?</h4>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>

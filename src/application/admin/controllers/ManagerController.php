@@ -10,7 +10,7 @@ use application\admin\forms\PageForm;
 use application\admin\services\ManagerService;
 use application\common\repositories\ManagerRepository;
 
-final class CarBrandController extends AbstractAdminController
+final class ManagerController extends AbstractAdminController
 {
     public function __construct(
         $id,

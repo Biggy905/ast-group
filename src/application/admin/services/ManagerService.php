@@ -104,6 +104,7 @@ final class ManagerService implements AbstractServiceInterface
      */
     public function create(AbstractForm $form): array
     {
+
         try {
             $manager = new Manager();
             $manager->name = $form->name;
@@ -118,11 +119,13 @@ final class ManagerService implements AbstractServiceInterface
             $result = $this->managerRepository->create($manager);
 
             if (!empty($form->events) && is_array($form->events)) {
+
                 foreach ($form->events as $event) {
-                    $existManager = $this->eventToManagerRepository->existsByEventId($event['id']);
+
+                    $existManager = $this->eventToManagerRepository->existsByEventId($manager->id, $event);
                     if (!$existManager) {
                         $eventToManager = new EventToManager();
-                        $eventToManager->event_id = $event['id'];
+                        $eventToManager->event_id = $event;
                         $eventToManager->manager_id = $manager->id;
                         $eventToManager->created_at = DateTimeHelper::getDateTime()
                             ->format(
@@ -166,7 +169,7 @@ final class ManagerService implements AbstractServiceInterface
 
                 if (!empty($form->events) && is_array($form->events)) {
                     foreach ($form->events as $event) {
-                        $existManager = $this->eventToManagerRepository->existsByEventId($event['id']);
+                        $existManager = $this->eventToManagerRepository->existsByEventId($manager->id, $event);
                         if (!$existManager) {
                             $eventToManager = new EventToManager();
                             $eventToManager->event_id = $event['id'];
@@ -231,6 +234,21 @@ final class ManagerService implements AbstractServiceInterface
                 'id',
                 'phone'
             );
+        }
+
+        return $data;
+    }
+
+    public static function toItems(array $array = []): array
+    {
+        $data = [];
+        if (!empty($array)) {
+            if (!empty($array['relation_data'])) {
+                $data = ArrayHelper::getColumn(
+                    $array['relation_data'],
+                    'id'
+                );
+            }
         }
 
         return $data;

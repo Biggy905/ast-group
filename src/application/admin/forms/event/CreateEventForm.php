@@ -5,6 +5,7 @@ namespace application\admin\forms\event;
 use application\admin\services\ManagerService;
 use application\common\components\AbstractForm;
 use application\common\enums\FormTypeInputEnums;
+use application\common\repositories\ManagerRepository;
 
 final class CreateEventForm extends AbstractForm
 {
@@ -38,8 +39,8 @@ final class CreateEventForm extends AbstractForm
                 'title' => 'Дата проведения',
                 'enum' => FormTypeInputEnums::TYPE_DATETIME,
                 'options' => [
-                    'format' => 'YYYY m d',
-                    'target' => 'field-date',
+                    'format' => 'YYYY-MM-DD',
+                    'target' => 'field-date_target',
                     'options' => [
                         'id' => 'field-date',
                         'class' => 'form-control datetimepicker-input',
@@ -50,11 +51,12 @@ final class CreateEventForm extends AbstractForm
             ],
             'managers' => [
                 'title' => 'Организаторы',
-                'enum' => FormTypeInputEnums::TYPE_DROPDOWN_LIST,
+                'enum' => FormTypeInputEnums::TYPE_DROPDOWN_LIST_MULTIPLE,
                 'options' => [
                     'options' => [
                         'class' => 'form-control',
-                        'id' => 'field-discount_id',
+                        'id' => 'field-managers',
+                        'multiple' => true,
                     ],
                     'selection' => null,
                     'items' => ManagerService::toList(),
@@ -71,7 +73,6 @@ final class CreateEventForm extends AbstractForm
                     'title',
                     'description',
                     'date',
-                    'managers',
                 ],
                 'required',
             ],
@@ -100,6 +101,14 @@ final class CreateEventForm extends AbstractForm
 
     public function validateManagers(): void
     {
+        $repository = new ManagerRepository();
 
+        $managers = $this->managers;
+        foreach ($managers as $manager) {
+            $existsEvent = $repository->existsById($manager);
+            if (!$existsEvent) {
+                $this->addError('managers', 'Запись организатора не найдена');
+            }
+        }
     }
 }

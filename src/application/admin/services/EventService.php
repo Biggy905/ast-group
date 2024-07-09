@@ -2,9 +2,9 @@
 
 namespace application\admin\services;
 
-use application\admin\forms\manager\CreateEventForm;
-use application\admin\forms\manager\DeleteEventForm;
-use application\admin\forms\manager\UpdateEventForm;
+use application\admin\forms\event\CreateEventForm;
+use application\admin\forms\event\DeleteEventForm;
+use application\admin\forms\event\UpdateEventForm;
 use application\admin\forms\IdForm;
 use application\admin\groups\TableDataItemGroup;
 use application\admin\groups\TableDataListGroup;
@@ -108,7 +108,9 @@ final class EventService implements AbstractServiceInterface
             $event = new Event();
             $event->title = $form->title;
             $event->description = $form->description;
-            $event->date = $form->date;
+            $event->date = DateTimeHelper::getDateTime($form->date)->format(
+                DateTimeFormatEnums::FORMAT_DATABASE_DATE->value
+            );
             $event->created_at = DateTimeHelper::getDateTime()
                 ->format(
                     DateTimeFormatEnums::FORMAT_DATABASE_DATETIME->value
@@ -118,11 +120,11 @@ final class EventService implements AbstractServiceInterface
 
             if (!empty($form->managers) && is_array($form->managers)) {
                 foreach ($form->managers as $manager) {
-                    $existManager = $this->eventToManagerRepository->existsByManagerId($manager['id']);
+                    $existManager = $this->eventToManagerRepository->existsByManagerId($event->id, $manager);
                     if (!$existManager) {
                         $eventToManager = new EventToManager();
                         $eventToManager->event_id = $event->id;
-                        $eventToManager->manager_id = $manager['id'];
+                        $eventToManager->manager_id = $manager;
                         $eventToManager->created_at = DateTimeHelper::getDateTime()
                             ->format(
                                 DateTimeFormatEnums::FORMAT_DATABASE_DATETIME->value
@@ -138,9 +140,7 @@ final class EventService implements AbstractServiceInterface
                 false => ['status' => 'error', 'save' => 'Не удалось сохранить!'],
             };
         } catch (\Exception $e) {
-            $data = match ($this->eventRepository->create($event)) {
-                false => ['status' => 'error', 'save' => 'Не удалось сохранить! ' . $e->getMessage()],
-            };
+            $data = ['status' => 'error', 'save' => 'Не удалось сохранить! ' . $e->getMessage()];
         }
 
         return $data;
@@ -156,7 +156,9 @@ final class EventService implements AbstractServiceInterface
             if ($event) {
                 $event->title = $form->title;
                 $event->description = $form->description;
-                $event->date = $form->date;
+                $event->date = DateTimeHelper::getDateTime($form->date)->format(
+                    DateTimeFormatEnums::FORMAT_DATABASE_DATE->value
+                );
                 $event->updated_at = DateTimeHelper::getDateTime()
                     ->format(
                         DateTimeFormatEnums::FORMAT_DATABASE_DATETIME->value
@@ -166,10 +168,10 @@ final class EventService implements AbstractServiceInterface
 
                 if (!empty($form->managers) && is_array($form->managers)) {
                     foreach ($form->managers as $manager) {
-                        $existManager = $this->eventToManagerRepository->existsByManagerId($manager['id']);
+                        $existManager = $this->eventToManagerRepository->existsByManagerId($event->id, $manager);
                         if (!$existManager) {
                             $eventToManager = new EventToManager();
-                            $eventToManager->event_id = $event['id'];
+                            $eventToManager->event_id = $event;
                             $eventToManager->manager_id = $manager->id;
                             $eventToManager->created_at = DateTimeHelper::getDateTime()
                                 ->format(
@@ -234,6 +236,21 @@ final class EventService implements AbstractServiceInterface
                 'id',
                 'title'
             );
+        }
+
+        return $data;
+    }
+
+    public static function toItems(array $array = []): array
+    {
+        $data = [];
+        if (!empty($array)) {
+            if (!empty($array['relation_data'])) {
+                $data = ArrayHelper::getColumn(
+                    $array['relation_data'],
+                    'id'
+                );
+            }
         }
 
         return $data;

@@ -33,6 +33,7 @@ final class TableDataListGroup
             $data[$key] = TableDataItemGroup::toArray($entity);
 
             foreach ($attributesLabel as $attribute => $label) {
+
                 if (is_array($label) && !empty($label['relation'])) {
                     $relatedRecords = $entity->getRelatedRecords();
                     $relation = $label['relation'];
