@@ -70,6 +70,7 @@ $linkPager = LinkPager::widget([
     ],
 ]); ?>
 
+<?php if (!empty($data['list'])) { ?>
 <div class="container">
     <div class="row">
 
@@ -111,6 +112,20 @@ $linkPager = LinkPager::widget([
 
     </div>
 </div>
+<?php } else {?>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2>
+                    Администрация сайта не добавила мероприятия.
+                </h2>
+                <p>Приносим извинения.</p>
+            </div>
+        </div>
+    </div>
+
+<?php }?>
 
 <div class="container">
     <div class="row justify-content-center">
