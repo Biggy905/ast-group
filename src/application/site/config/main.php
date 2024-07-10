@@ -1,10 +1,7 @@
 <?php
 
-use application\common\helpers\ApiUrl\AdminUrl;
-
 $db = require '../../common/config/db.php';
 $routes = require 'routes.php';
-$apiRoutes = require '../../api/config/routes.php';
 $containers = require 'containers.php';
 $params = require 'params.php';
 
@@ -48,15 +45,6 @@ $config = [
             'showScriptName' => false,
             'rules' => $routes,
         ],
-        \application\common\helpers\AdminUrl\AdminUrl::$componentName  => [
-            'class' => \yii\web\UrlManager::class,
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'enableStrictParsing' => true,
-            'baseUrl' => '/',
-            'hostInfo' => sprintf('%s://%s:%s', 'http', 'localhost', '5020'),
-            'rules' => $apiRoutes,
-        ],
     ],
     'params' => $params,
     'container' => [
@@ -70,13 +58,6 @@ if (getenv('YII_DEBUG') === 1) {
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
-    ];
-}
-
-if (getenv('YII_GII') === 1) {
-    $config['bootstrap'][] = 'gii';
-    $config['modules']['gii'] = [
-        'class' => 'yii\gii\Module',
     ];
 }
 

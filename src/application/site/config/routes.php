@@ -4,6 +4,14 @@ return [
     [
         'verb' => ['get'],
         'pattern' => '/',
-        'route' => 'index/index',
+        'route' => 'site/index',
+    ],
+    [
+        'verb' => ['get'],
+        'pattern' => 'events/<page:\d+>',
+        'route' => 'site/list',
+        'defaults' => [
+            'page' => '1',
+        ],
     ],
 ];

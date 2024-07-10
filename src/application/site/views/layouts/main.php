@@ -15,7 +15,7 @@ MainAssets::register($this);
 
 </head>
 
-<body class="bg">
+<body>
 <?php $this->beginBody()?>
 
 <?= $content?>
