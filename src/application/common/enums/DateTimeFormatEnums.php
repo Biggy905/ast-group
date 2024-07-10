@@ -11,6 +11,8 @@ enum DateTimeFormatEnums: string
     case FORMAT_DATABASE_TIME_WITH_SECOND = 'H:i:s';
     case FORMAT_DATABASE_TIME_WITHOUT_SECOND = 'H:i';
 
+    case FORMAT_SITE = 'd.m.Y';
+
     case FORMAT_HOUR = 'H';
     case FORMAT_MINUTE = 'i';
     case FORMAT_SECOND = 's';

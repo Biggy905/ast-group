@@ -73,13 +73,23 @@ $linkPager = LinkPager::widget([
 <div class="container">
     <div class="row">
 
-            <?php foreach ($data['list'] as $item) {?>
+            <?php foreach ($data['list'] as $item) {
+                $date = 'Не указан';
+                if (!empty($item['date'])) {
+                    $date = \application\common\helpers\DateTimeHelper::getDateTime($item['date'])
+                        ->format(
+                            \application\common\enums\DateTimeFormatEnums::FORMAT_SITE->value
+                        );
+                }
 
-        <div class="col-4">
+                ?>
+
+        <div class="col-3 mt-3">
             <div class="card" style="width: 18rem;">
                 <div class="card-body">
-                    <h5 class="card-title"><b>Мероприятие: </b><?= $item['title']?></h5>
-                    <p><b>Описание: </b><?= $item['description']?></p>
+                    <h5 class="card-title"><?= $item['title']?></h5>
+                    <p><b>Дата проведения: </b><?= $date?></p>
+                    <p><?= $item['description']?></p>
                     <p>Организаторы:</p>
                     <ul>
 
@@ -104,7 +114,7 @@ $linkPager = LinkPager::widget([
 
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-5">
+        <div class="col-5 mt-5 mb-5">
 
 <?= $linkPager?>
 
