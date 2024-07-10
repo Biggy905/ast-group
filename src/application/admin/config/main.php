@@ -74,4 +74,11 @@ $config = [
     ],
 ];
 
+if (getenv('YII_GII') === 1) {
+    $config['bootstrap'][] = 'gii';
+    $config['modules']['gii'] = [
+        'class' => 'yii\gii\Module',
+    ];
+}
+
 return $config;
