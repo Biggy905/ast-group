@@ -56,6 +56,13 @@ final class ManagerRepository extends AbstractRepository implements ManagerRepos
             ->count();
     }
 
+    public function findAllByStatusNotProcessed(): array
+    {
+        return Manager::find()
+            ->byStatusNotProcessed()
+            ->all();
+    }
+
     /**
      * @throws Exception
      */

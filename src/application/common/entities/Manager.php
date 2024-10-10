@@ -5,9 +5,6 @@ declare(strict_types=1);
 namespace application\common\entities;
 
 use application\common\components\AbstractModel;
-use application\common\enums\CarCards\TypeMileageEnum;
-use application\common\enums\CarCharacteristic\TypeFuelEnum;
-use application\common\queries\EventQuery;
 use application\common\queries\ManagerQuery;
 use yii\db\ActiveQuery;
 
@@ -17,6 +14,7 @@ use yii\db\ActiveQuery;
  * @property string $surname
  * @property string $email
  * @property string $phone
+ * @property string $status_send_to_external
  * @property string $created_at
  * @property string $updated_at
  * @property string $deleted_at
@@ -38,6 +36,7 @@ final class Manager extends AbstractModel
             'surname' => 'Фамилия',
             'email' => 'Эл. почта',
             'phone' => 'Телефон',
+            'status_send_to_external' => 'Статус. Отправка в RetailCRM.',
             'events' => [
                 'relation' => 'events',
                 'title' => 'Мероприятия',

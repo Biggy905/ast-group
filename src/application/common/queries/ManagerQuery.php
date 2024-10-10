@@ -6,6 +6,7 @@ namespace application\common\queries;
 
 use application\common\components\AbstractQuery;
 use application\common\entities\Manager;
+use application\common\enums\ManagerStatusSendEnum;
 use yii\db\ActiveQuery;
 
 final class ManagerQuery extends AbstractQuery
@@ -24,6 +25,15 @@ final class ManagerQuery extends AbstractQuery
         return $this->andWhere(
             [
                 Manager::tableName() . '.id' => $ids,
+            ]
+        );
+    }
+
+    public function byStatusNotProcessed(): ActiveQuery
+    {
+        return $this->andWhere(
+            [
+                Manager::tableName() . '.status_send_to_external' => ManagerStatusSendEnum::STATUS_NOT_PROCESSED->value,
             ]
         );
     }
