@@ -7,6 +7,7 @@ Yii::setAlias('app', $rootDir);
 Yii::setAlias('root', $rootDir . '/../');
 Yii::setAlias('vendor', $rootDir . '/vendor');
 
+Yii::setAlias('application', $applicationDir);
 Yii::setAlias('common', $applicationDir . '/common');
 Yii::setAlias('site', $applicationDir . '/site');
 Yii::setAlias('admin', $applicationDir . '/admin');
