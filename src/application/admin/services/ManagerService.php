@@ -14,6 +14,7 @@ use application\common\components\AbstractForm;
 use application\common\entities\EventToManager;
 use application\common\entities\Manager;
 use application\common\enums\DateTimeFormatEnums;
+use application\common\enums\ManagerStatusSendEnum;
 use application\common\helpers\DateTimeHelper;
 use application\common\repositories\EventToManagerRepository;
 use application\common\repositories\ManagerRepository;
@@ -111,6 +112,7 @@ final class ManagerService implements AbstractServiceInterface
             $manager->surname = $form->surname;
             $manager->email = $form->email;
             $manager->phone = $form->phone;
+            $manager->status_send_to_external = ManagerStatusSendEnum::STATUS_NOT_PROCESSED->value;
             $manager->created_at = DateTimeHelper::getDateTime()
                 ->format(
                     DateTimeFormatEnums::FORMAT_DATABASE_DATETIME->value
