@@ -33,4 +33,32 @@ final class ManagerController extends AbstractAdminController
             $config
         );
     }
+
+    public function actionRun(): array
+    {
+        $this->service->startSend();
+
+        return $this->response(
+            [
+                'status' => 'queue',
+                'data' => [
+                    'Queue' => 'Запущен процесс!',
+                ]
+            ]
+        );
+    }
+
+    public function beforeAction($action): bool
+    {
+        if (
+            ($this->action->id == 'create')
+            || ($this->action->id == 'update')
+            || ($this->action->id == 'delete')
+            || ($this->action->id == 'run')
+        ) {
+            $this->enableCsrfValidation = false;
+        }
+
+        return parent::beforeAction($action);
+    }
 }

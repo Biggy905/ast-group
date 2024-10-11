@@ -1,1 +1,4 @@
 vendor
+/application/admin/runtime/*
+/application/console/runtime/*
+/application/site/runtime/*

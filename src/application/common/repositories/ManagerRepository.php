@@ -84,8 +84,6 @@ final class ManagerRepository extends AbstractRepository implements ManagerRepos
 
     public function updateAll(array $managers): void
     {
-        $ids = ArrayHelper::getColumn($managers, 'id');
-
         Manager::updateAll(
             [
                 Manager::tableName() . '.status_send_to_external' => ManagerStatusSendEnum::STATUS_PROCESSED->value,
@@ -95,7 +93,7 @@ final class ManagerRepository extends AbstractRepository implements ManagerRepos
                 ),
             ],
             [
-                Manager::tableName() . '.id' => $ids
+                Manager::tableName() . '.id' => $managers
             ],
         );
     }

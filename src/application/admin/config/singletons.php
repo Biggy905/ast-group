@@ -10,6 +10,8 @@ return [
         return $logger;
     },
 
+    \application\admin\services\ManagerService::class => \application\admin\services\ManagerService::class,
+
     \application\common\repositories\interfaces\ManagerRepositoryInterface::class =>
         \application\common\repositories\ManagerRepository::class,
 ];

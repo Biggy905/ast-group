@@ -72,7 +72,12 @@ $manager = [
         'verb' => ['delete'],
         'pattern' => 'manager/<id>/delete',
         'route' => 'manager/delete',
-    ]
+    ],
+    [
+        'verb' => ['post'],
+        'pattern' => 'manager/run',
+        'route' => 'manager/run',
+    ],
 ];
 
 return array_merge(

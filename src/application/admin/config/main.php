@@ -5,7 +5,7 @@ use application\common\helpers\SiteUrl\SiteUrl;
 $db = require '../../common/config/db.php';
 $routes = require 'routes.php';
 $siteRoutes = require '../../site/config/routes.php';
-$containers = require 'containers.php';
+$singletons = require 'singletons.php';
 $params = require 'params.php';
 
 $config = [
@@ -13,7 +13,7 @@ $config = [
     'name' => 'Сайт',
     'basePath' => dirname(__DIR__),
     'language' => 'ru-RU',
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log', 'queue'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
@@ -30,7 +30,25 @@ $config = [
             'cookieValidationKey' => 'tnb245vDdVgZwHZ1f-geEj8yF4nQ4gR5',
         ],
         'cache' => [
-            'class' => yii\caching\FileCache::class,
+            'class' => \yii\redis\Cache::class,
+        ],
+        'redis' => [
+            'class' => \yii\redis\Connection::class,
+            'hostname' => 'ast-redis',
+            'port' => 6379,
+            'database' => 0,
+            'retries' => 1,
+            'socketClientFlags' => STREAM_CLIENT_CONNECT | STREAM_CLIENT_PERSISTENT,
+        ],
+        'queue' => [
+            'class' => \yii\queue\redis\Queue::class,
+            'commandClass' => \application\common\components\queue\QueueCommand::class,
+            'redis' => 'redis',
+            'channel' => 'main',
+        ],
+        'retailCrmUrlManager' => [
+            'class' => \application\common\components\urls\RetailCRM\RetailCrmUrlManager::class,
+            'hostInfo' => 'https://testirovanie.retailcrm.ru/',
         ],
         'errorHandler' => [
             'class' => \yii\web\ErrorHandler::class,
@@ -69,7 +87,7 @@ $config = [
     ],
     'params' => $params,
     'container' => [
-        'singletons' => $containers,
+        'singletons' => $singletons,
         'definitions' => [],
     ],
 ];

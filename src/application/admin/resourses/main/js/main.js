@@ -58,6 +58,10 @@ function responseFormValidate(sendForm) {
         if (this.status >= 200 && this.status <= 299) {
             if (responseJson['data']['status'] === 'success') {
                 location.href = responseJson['data']['url'];
+            } else if(responseJson['data']['status'] === 'queue') {
+                key = mapValidateKey(responseJson['data']);
+
+                appendToastSuccess(responseJson['data'][key]);
             } else {
                 key = mapValidateKey(responseJson['data']);
 

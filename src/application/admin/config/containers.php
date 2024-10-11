@@ -1,6 +1,0 @@
-<?php
-
-return [
-    'singletons' => [],
-    'definitions' => [],
-];

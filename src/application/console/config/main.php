@@ -34,6 +34,10 @@ return [
             'redis' => 'redis',
             'channel' => 'main',
         ],
+        'retailCrmUrlManager' => [
+            'class' => \application\common\components\urls\RetailCRM\RetailCrmUrlManager::class,
+            'hostInfo' => 'https://testirovanie.retailcrm.ru/',
+        ],
         'log' => [
             'targets' => [
                 [

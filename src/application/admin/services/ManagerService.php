@@ -11,13 +11,16 @@ use application\admin\groups\TableDataListGroup;
 use application\admin\groups\TableListGroup;
 use application\admin\services\interfaces\AbstractServiceInterface;
 use application\common\components\AbstractForm;
+use application\common\components\QueueComponent;
 use application\common\entities\EventToManager;
 use application\common\entities\Manager;
 use application\common\enums\DateTimeFormatEnums;
 use application\common\enums\ManagerStatusSendEnum;
+use application\common\enums\QueueChannel;
 use application\common\helpers\DateTimeHelper;
 use application\common\repositories\EventToManagerRepository;
 use application\common\repositories\ManagerRepository;
+use application\console\jobs\ManagerStatusJob;
 use yii\data\Pagination;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
@@ -28,6 +31,7 @@ final class ManagerService implements AbstractServiceInterface
     public function __construct(
         private readonly ManagerRepository $managerRepository,
         private readonly EventToManagerRepository $eventToManagerRepository,
+        private QueueComponent $queueComponent,
     ) {
 
     }
@@ -222,6 +226,22 @@ final class ManagerService implements AbstractServiceInterface
             true => ['status' => 'success', 'url' => Url::to(['event/list', 'page' => 1], true)],
             false => ['status' => 'error', 'update' => 'Не удалось удалить!'],
         };
+    }
+
+    public function startSend(): void
+    {
+        $managers = $this->managerRepository->findAllByStatusNotProcessedAsArray();
+        $managerIds = ArrayHelper::getColumn($managers, 'id');
+
+        $managerJob = new ManagerStatusJob($managerIds);
+
+        $delay = getenv('RETAIL_CRM_QUEUE_DELAY');
+
+        $this->queueComponent->push(
+            $managerJob,
+            QueueChannel::CHANNEL_MANAGER_STATUS,
+            $delay
+        );
     }
 
     public static function toItem(?int $id = null): array
