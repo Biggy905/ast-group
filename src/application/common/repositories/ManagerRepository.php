@@ -7,10 +7,14 @@ namespace application\common\repositories;
 use application\common\components\repository\AbstractRepository;
 use application\common\entities\EventToManager;
 use application\common\entities\Manager;
+use application\common\enums\DateTimeFormatEnums;
+use application\common\enums\ManagerStatusSendEnum;
+use application\common\helpers\DateTimeHelper;
 use application\common\repositories\interfaces\EventToManagerRepositoryInterface;
 use application\common\repositories\interfaces\ManagerRepositoryInterface;
 use DomainException;
 use Exception;
+use yii\helpers\ArrayHelper;
 
 final class ManagerRepository extends AbstractRepository implements ManagerRepositoryInterface
 {
@@ -56,10 +60,12 @@ final class ManagerRepository extends AbstractRepository implements ManagerRepos
             ->count();
     }
 
-    public function findAllByStatusNotProcessed(): array
+    public function findAllByStatusNotProcessedAsArray(): array
     {
         return Manager::find()
+            ->selectByIdAndStatus()
             ->byStatusNotProcessed()
+            ->asArray()
             ->all();
     }
 
@@ -74,5 +80,23 @@ final class ManagerRepository extends AbstractRepository implements ManagerRepos
         }
 
         return $result;
+    }
+
+    public function updateAll(array $managers): void
+    {
+        $ids = ArrayHelper::getColumn($managers, 'id');
+
+        Manager::updateAll(
+            [
+                Manager::tableName() . '.status_send_to_external' => ManagerStatusSendEnum::STATUS_PROCESSED->value,
+                Manager::tableName() . '.updated_at' => (
+                    DateTimeHelper::getDateTime()
+                        ->format(DateTimeFormatEnums::FORMAT_DATABASE_DATE->value)
+                ),
+            ],
+            [
+                Manager::tableName() . '.id' => $ids
+            ],
+        );
     }
 }

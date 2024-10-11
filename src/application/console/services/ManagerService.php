@@ -18,9 +18,9 @@ final class ManagerService
 
     public function startSend(): void
     {
-        $managers = $this->managerRepository->findAllByStatusNotProcessed();
+        $managers = $this->managerRepository->findAllByStatusNotProcessedAsArray();
 
-        $managerJob = new ManagerStatusJob();
+        $managerJob = new ManagerStatusJob($managers);
 
         $delay = getenv('RETAIL_CRM_QUEUE_DELAY');
 

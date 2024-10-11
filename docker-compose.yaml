@@ -50,6 +50,27 @@ services:
       - ast-mysql-db-data:/bitnami/mysql/data
     restart: unless-stopped
 
+  ast-redis:
+    container_name: ast-redis
+    image: redis:6-alpine
+    volumes:
+      - ast-redis-data:/data
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+
+  ast-php-queue-manager_status:
+    container_name: ast-php-queue-manager_status
+    build:
+      context: .
+      dockerfile: docker/php/8.2/cli/Dockerfile
+    command: php /app/src/yii queue/listen --verbose=1 --color=1 --channel=manager_status
+    tty: true
+    volumes:
+      - ./:/app
+    depends_on:
+      - ast-mysql
+
 networks:
   default:
     external: true
@@ -57,3 +78,4 @@ networks:
 
 volumes:
   ast-mysql-db-data:
+  ast-redis-data:

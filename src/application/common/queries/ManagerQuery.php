@@ -8,6 +8,7 @@ use application\common\components\AbstractQuery;
 use application\common\entities\Manager;
 use application\common\enums\ManagerStatusSendEnum;
 use yii\db\ActiveQuery;
+use yii\db\Expression;
 
 final class ManagerQuery extends AbstractQuery
 {
@@ -26,6 +27,15 @@ final class ManagerQuery extends AbstractQuery
             [
                 Manager::tableName() . '.id' => $ids,
             ]
+        );
+    }
+
+    public function selectByIdAndStatus(): ActiveQuery
+    {
+        return $this->select(
+            new Expression(
+                Manager::tableName() . '.id, ' . Manager::tableName() . '.status_send_to_external'
+            )
         );
     }
 

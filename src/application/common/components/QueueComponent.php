@@ -14,7 +14,7 @@ final class QueueComponent
     ): ?string {
         $queue = new \yii\queue\redis\Queue();
         $queue->channel = $channel->value;
-        $queue->ttr = 60 * 60;
+        $queue->ttr = 1;
 
         if ($delay) {
             $queue->delay($delay);

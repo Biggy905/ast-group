@@ -5,7 +5,7 @@ $db = require __DIR__ . '/../../common/config/db.php';
 return [
     'id' => 'console',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log', 'queue'],
     'controllerNamespace' => 'application\console\controllers',
     'controllerMap' => [
         'migrate' => [
@@ -18,17 +18,35 @@ return [
     ],
     'components' => [
         'cache' => [
-            'class' => 'yii\caching\FileCache',
+            'class' => \yii\redis\Cache::class,
+        ],
+        'redis' => [
+            'class' => \yii\redis\Connection::class,
+            'hostname' => 'ast-redis',
+            'port' => 6379,
+            'database' => 0,
+            'retries' => 1,
+            'socketClientFlags' => STREAM_CLIENT_CONNECT | STREAM_CLIENT_PERSISTENT,
+        ],
+        'queue' => [
+            'class' => \yii\queue\redis\Queue::class,
+            'commandClass' => \application\common\components\queue\QueueCommand::class,
+            'redis' => 'redis',
+            'channel' => 'main',
         ],
         'log' => [
             'targets' => [
                 [
-                    'class' => 'yii\log\FileTarget',
+                    'class' => yii\log\FileTarget::class,
                     'levels' => ['error', 'warning'],
                 ],
             ],
         ],
         'db' => $db,
+    ],
+    'container' => [
+        'singletons' => require __DIR__ . '/singletons.php',
+        'definitions' => [],
     ],
     'params' => [],
 ];

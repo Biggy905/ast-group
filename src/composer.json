@@ -19,6 +19,7 @@
     "yiisoft/yii2-faker": "~2.0.0",
     "yiisoft/yii2-symfonymailer": "~2.0.3",
     "yiisoft/yii2-queue": "^2.3",
+    "yiisoft/yii2-redis": "^2.0",
     "symfony/http-client": "^v7.1.5",
     "monolog/monolog": "^3.7.0",
     "vlucas/phpdotenv": "*",
